@@ -1,0 +1,26 @@
+{
+  "$description": "Escañómetro. Canónico DTCG v0 (2026-10-04). Territorio: instrumento de medida (lo que se toca) + archivo del Diario de Sesiones (lo que se lee). _procedencia: decidido | provisional | calculado.",
+  "color": {
+    "papel": { "$type": "color", "$value": "#F2EEE4", "$description": "Fondo. Papel de archivo.", "_procedencia": "provisional" },
+    "ficha": { "$type": "color", "$value": "#FBF8F1", "$description": "Superficie de la tarjeta-ficha.", "_procedencia": "provisional" },
+    "tinta": { "$type": "color", "$value": "#1F1D1A", "$description": "Texto principal. 14,5:1 sobre papel.", "_procedencia": "calculado" },
+    "tinta-suave": { "$type": "color", "$value": "#655F54", "$description": "Texto secundario. 5,5:1 sobre papel (AA).", "_procedencia": "calculado" },
+    "linea": { "$type": "color", "$value": "#D3CBB9", "$description": "Reglas, bordes de ficha, escaños apagados.", "_procedencia": "provisional" },
+    "laton": { "$type": "color", "$value": "#86600F", "$description": "Acento único: aguja, escaños encendidos, foco. Latón de instrumento. Elegido por no estar asociado a ningún partido estatal (ni rojo, azul, morado, verde lima ni magenta). 4,9:1 sobre papel (AA). Primera propuesta #9A6B0E daba 4,0:1 y se oscureció.", "_procedencia": "calculado" },
+    "acierto": { "$type": "color", "$value": "#24524C", "$description": "Sello de acierto: verde petróleo oscuro, lejos del verde lima. 8,3:1 sobre ficha.", "_procedencia": "provisional" },
+    "fallo": { "$type": "color", "$value": "#7E4220", "$description": "Sello de fallo: siena tostado, deliberadamente no rojo. 7,4:1 sobre ficha.", "_procedencia": "provisional" }
+  },
+  "font": {
+    "documento": { "$type": "fontFamily", "$value": "IBM Plex Serif", "$description": "Lo que se lee: la frase, el registro, las páginas de texto. Autoalojada (OFL).", "_procedencia": "provisional" },
+    "instrumento": { "$type": "fontFamily", "$value": "IBM Plex Mono", "$description": "Lo que se toca y se mide: escala, teclas, contadores, rótulos. Autoalojada (OFL).", "_procedencia": "provisional" }
+  },
+  "motion": {
+    "aguja": { "$type": "duration", "$value": "420ms", "$description": "Aguja hacia la apuesta, con sobreoscilación amortiguada (instrumento real).", "_procedencia": "provisional" },
+    "giro": { "$type": "duration", "$value": "560ms", "$description": "Giro de la ficha. Más largo que la aguja: es el momento de la revelación.", "_procedencia": "provisional" },
+    "sello": { "$type": "duration", "$value": "260ms", "$description": "Sello que golpea el registro, tras el giro.", "_procedencia": "provisional" }
+  },
+  "regla": {
+    "neutralidad": { "$value": "Izquierda y derecha comparten color y forma; solo cambia la posición en la escala.", "_procedencia": "decidido" },
+    "roles": { "$value": "Lo que se toca es instrumento (mono, latón, escala). Lo que se lee es documento (serif, papel, ficha).", "_procedencia": "decidido" }
+  }
+}

@@ -1,0 +1,27 @@
+Vas a revisar frases sacadas del Diario de Sesiones del Congreso de los Diputados. Cada frase se le enseñará a un jugador, sola, sin nada de lo que se dijo antes ni después, y el jugador tendrá que adivinar si la dijo un diputado de izquierda o de derecha. Una frase solo sirve para el juego si un lector cualquiera la entiende sola y encuentra en ella algo que atribuir.
+
+Responde tres preguntas sobre cada frase. Cada respuesta es true o false.
+
+1. "entiende": ¿se entiende sola, sin saber de qué se hablaba antes?
+   Es false si la frase depende de algo que no está en ella: empieza o se apoya en "esto", "eso", "esta propuesta", "ese sistema", "lo hicieron", "a esto se suma", "las dos", "la primera" sin decir a qué se refieren; es un elemento de una enumeración ("Y, tercero, ..."); es un trozo sin verbo principal; o hace falta conocer la sesión para saber de qué va.
+   También es false si nombra algo concreto que la frase no identifica y que el lector no puede adivinar: "la crisis", "estos efectos", "esos años", "las diferentes modalidades", "los límites", "unos pocos meses", "muchos que viven en esas zonas". Pregúntate: alguien que no ha visto la sesión, ¿sabría de qué crisis, qué efectos o qué meses se habla? Si no, es false.
+   Es true si un lector entiende de qué trata y qué se dice aunque no sepa quién habla. Una referencia genérica que se deduce sin esfuerzo ("la ley de vivienda", "el Gobierno", "ustedes", "la sanidad pública") no la hace false.
+
+2. "afirma": ¿expresa una postura, una crítica, una propuesta o una afirmación que alguien podría defender o rechazar?
+   Es false si es trámite o procedimiento (saludos, orden del día, "quiero mencionar", "como decía antes"), un dato suelto sin ninguna valoración, una pregunta técnica sin postura, o un lugar común que nadie discutiría ("la sanidad es importante para todos", "hay que actuar ya", "la coordinación es imprescindible", "lo más importante es escuchar a los pacientes").
+   Es true si un lector puede pensar "esto lo diría uno de los dos bloques" o "esto lo podría decir cualquiera, pero dice algo".
+
+3. "delata": ¿revela quién la dice o a qué partido pertenece?
+   Es true si nombra al propio partido, a su líder o a un miembro del Gobierno o de la oposición por su nombre; si habla en nombre de un grupo identificable ("en nuestro grupo, Sumar", "nosotras" como grupo parlamentario); si atribuye la idea a otros para criticarla ("dicen que ...", "según ellos ...") de forma que lo que se lee es lo contrario de lo que piensa quien habla.
+   Es false en los demás casos. Que la postura sea típica de un bloque NO la hace true: eso es justo lo que el juego mide.
+
+Ejemplos inventados, solo para entender el criterio:
+- "Y, segundo, reforzar la coordinación." -> entiende false, afirma false, delata false
+- "Esa es la trampa de su propuesta." -> entiende false, afirma true, delata false
+- "Hoy debatimos la proposición de ley que ha presentado el grupo." -> entiende true, afirma false, delata false
+- "Bajar el IVA de los alimentos ayuda más a las familias que cualquier subvención." -> entiende true, afirma true, delata false
+
+Devuelve SOLO un JSON, sin texto alrededor, con una entrada por frase y en el mismo orden:
+{"resultados": [{"n": 1, "entiende": true, "afirma": true, "delata": false}, ...]}
+
+Frases (entre corchetes, el tema):

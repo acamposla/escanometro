@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><title>logo</title>
+<!-- Piezas del imagotipo (hemiciclo con interrogante), mismo dibujo que web/app.js (FILAS).
+     ?pieza=avatar  -> cuadrado oscuro 1024 px: perfiles de redes e iconos de la app
+     ?pieza=firma   -> horizontal 640x168 px (se ve a 320x84): firma de correo
+     ?pieza=favicon -> cuadrado 512 px simplificado (una fila de escanos gruesos) para
+                       iconos de 16 a 96 px: pestana del navegador y resultados de Google -->
+<style>
+@font-face { font-family: "Plex Serif"; src: url("../og/ibm-plex-serif-latin-600-normal.woff2"); font-weight: 600; }
+@font-face { font-family: "Plex Serif"; src: url("../og/ibm-plex-serif-latin-400-italic.woff2"); font-style: italic; }
+@font-face { font-family: "Plex Mono"; src: url("../og/ibm-plex-mono-latin-600-normal.woff2"); font-weight: 600; }
+html, body { margin: 0; }
+.avatar { width: 1024px; height: 1024px; background: #1E1C19; display: grid; place-items: center; }
+.avatar svg { width: 780px; margin-top: -10px; }
+.avatar .escano { fill: #4A463E; }
+.avatar .int { font: 600 210px "Plex Serif"; fill: #EDE7DA; }
+.favicon { width: 512px; height: 512px; background: #1E1C19; display: grid; place-items: center; }
+.favicon svg { width: 470px; margin-top: 0; }
+.favicon .escano { fill: #8A8478; }
+.favicon .int { font: 600 176px "Plex Serif"; fill: #EDE7DA; }
+.firma { width: 640px; height: 168px; background: #F2EEE4; display: flex; align-items: center; gap: 26px; padding: 0 30px; box-sizing: border-box; }
+.firma svg { width: 150px; flex: none; }
+.firma .escano { fill: #B9B09E; }
+.firma .int { font: 600 210px "Plex Serif"; fill: #1F1D1A; }
+.firma h1 { font: 600 52px/1 "Plex Serif"; color: #1F1D1A; margin: 0; letter-spacing: -0.01em; }
+.firma .lema { font: italic 25px/1.2 "Plex Serif"; color: #655F54; margin: 8px 0 0; }
+.firma .web { font: 600 19px "Plex Mono"; letter-spacing: 0.12em; text-transform: uppercase; color: #86600F; margin: 10px 0 0; }
+</style></head><body>
+<script>
+const pieza = new URLSearchParams(location.search).get('pieza') || 'avatar';
+const N = 'http://www.w3.org/2000/svg';
+function imagotipo() {
+  const s = document.createElementNS(N, 'svg');
+  s.setAttribute('viewBox', pieza === 'favicon' ? '0 0 340 192' : '0 0 340 180');
+  const filas = pieza === 'favicon' ? [[150, 9]] : [[150, 30], [130, 26], [110, 22], [90, 18], [70, 14]];
+  const radio = pieza === 'favicon' ? 15 : 5;
+  for (const [r, n] of filas) for (let k = 0; k < n; k++) {
+    const a = Math.PI - Math.PI * k / (n - 1), c = document.createElementNS(N, 'circle');
+    c.setAttribute('cx', 170 + r * Math.cos(a)); c.setAttribute('cy', 168 - r * Math.sin(a)); c.setAttribute('r', radio);
+    c.setAttribute('class', 'escano'); s.appendChild(c);
+  }
+  const t = document.createElementNS(N, 'text');
+  t.setAttribute('x', 170); t.setAttribute('y', 166); t.setAttribute('text-anchor', 'middle');
+  t.setAttribute('class', 'int'); t.textContent = '?'; s.appendChild(t);
+  return s;
+}
+const caja = document.createElement('div');
+caja.className = pieza;
+caja.appendChild(imagotipo());
+if (pieza === 'firma') {
+  const txt = document.createElement('div');
+  txt.innerHTML = '<h1>Escañómetro</h1><p class="lema">¿Lo dijo la izquierda o la derecha?</p><p class="web">escanometro.com</p>';
+  caja.appendChild(txt);
+}
+document.body.appendChild(caja);
+</script></body></html>

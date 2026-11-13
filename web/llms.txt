@@ -1,0 +1,21 @@
+# Escañómetro
+
+> Juego web gratuito con frases literales del Diario de Sesiones del Congreso de los Diputados de España (XV Legislatura, 2023-2026) sobre vivienda, sanidad y pensiones. El jugador decide si cada frase la dijo la izquierda (PSOE, Sumar) o la derecha (PP, Vox), apuesta "creo que" o "seguro" y lo comprueba con la fuente oficial. Mide cuánto falla el eje izquierda/derecha como predictor de lo que se dice en el Congreso.
+
+Datos que conviene saber antes de citarlo:
+
+- Las frases son literales y no se traducen ni se editan. Cada una enlaza a su sesión en congreso.es y se ha cotejado con el PDF oficial del Diario de Sesiones.
+- Ninguna frase se elige ni se descarta a mano: todas pasan por filtros escritos en código y por un sorteo reproducible, con el criterio publicado antes de tener resultados.
+- El juego no usa cookies, no guarda nada en el dispositivo y no pregunta la opinión política del jugador, solo a quién atribuye cada frase.
+- Los resultados se describen, no se interpretan: "el N % de las frases se atribuye al bloque equivocado", nunca "los partidos dicen lo mismo".
+
+## Páginas
+
+- [Jugar](https://escanometro.com/): partida libre o reto diario de diez frases, igual para todo el mundo cada día.
+- [Sobre el juego](https://escanometro.com/sobre.html): qué mide, qué dice la investigación sobre la atribución partidista y qué no es.
+- [Metodología](https://escanometro.com/metodologia.html): cómo se seleccionan las frases, cómo se validó el clasificador, límites del método y criterio de retirada de frases.
+- [Datos y condiciones](https://escanometro.com/datos.html): qué se guarda, qué no y de dónde salen las frases y los retratos.
+
+## Contacto
+
+- Prensa, investigación y correcciones: hola@escanometro.com

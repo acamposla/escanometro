@@ -1,0 +1,11 @@
+# Cloudflare Pages: sitio estatico en web/ y funciones en functions/.
+# Se despliega con la sesion OAuth de wrangler (wrangler login).
+name = "escanometro"
+pages_build_output_dir = "web"
+compatibility_date = "2026-08-18"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "sesgo-respuestas"
+database_id = "00000000-0000-0000-0000-000000000000" # el de tu base D1
+migrations_dir = "migrations"

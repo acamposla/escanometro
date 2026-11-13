@@ -1,0 +1,15 @@
+{
+  "name": "Escañómetro",
+  "short_name": "Escañómetro",
+  "description": "¿Lo dijo la izquierda o la derecha? Frases reales del Congreso de los Diputados.",
+  "lang": "es",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#F2EEE4",
+  "theme_color": "#1E1C19",
+  "icons": [
+    { "src": "/icono-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icono-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+  ]
+}

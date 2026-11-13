@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="canonical" href="https://escanometro.com/">
+  <script type="application/ld+json">
+  {"@context": "https://schema.org", "@graph": [
+   {"@type": "WebSite", "@id": "https://escanometro.com/#sitio", "name": "Escañómetro",
+    "alternateName": "Escanometro", "url": "https://escanometro.com/", "inLanguage": "es-ES"},
+   {"@type": "WebApplication", "name": "Escañómetro", "isPartOf": {"@id": "https://escanometro.com/#sitio"},
+    "url": "https://escanometro.com/", "inLanguage": "es-ES",
+    "applicationCategory": "GameApplication", "operatingSystem": "Cualquiera (navegador web)",
+    "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"},
+    "spatialCoverage": {"@type": "Country", "name": "España"},
+    "description": "Frases literales del Diario de Sesiones del Congreso de los Diputados de España sobre vivienda, sanidad y pensiones. El jugador adivina si las dijo la izquierda (PSOE, Sumar) o la derecha (PP, Vox) y lo comprueba con la fuente oficial."}
+  ]}
+  </script>
+  <title>Escañómetro: ¿lo dijo la izquierda o la derecha?</title>
+  <meta name="description" content="Escañómetro: frases reales del Congreso de los Diputados de España sobre vivienda, sanidad y pensiones. ¿Las dijo la izquierda o la derecha? Juega y compruébalo con la fuente oficial.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="es_ES">
+  <meta property="og:site_name" content="Escañómetro">
+  <meta property="og:title" content="Escañómetro: ¿lo dijo la izquierda o la derecha?">
+  <meta property="og:description" content="Frases reales del Congreso de los Diputados de España. Desliza cada una hacia el bloque que crees que la dijo, apuesta y compruébalo con la fuente oficial.">
+  <meta property="og:url" content="https://escanometro.com/">
+  <meta property="og:image" content="https://escanometro.com/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Escañómetro. Congreso de los Diputados, España. ¿Lo dijo la izquierda o la derecha? Un hemiciclo con un interrogante.">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="/favicon.ico" sizes="48x48">
+  <link rel="icon" href="/favicon-96.png" type="image/png" sizes="96x96">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="theme-color" content="#F2EEE4" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#171614" media="(prefers-color-scheme: dark)">
+</head>
+<body>
+  <nav class="menu">
+    <a href="./" aria-current="page">Jugar</a><a href="sobre.html">Sobre</a><a href="metodologia.html">Método</a>
+    <button id="sonido" class="sonido" aria-pressed="true" title="Activar o silenciar el sonido y la vibración">Sonido: sí</button>
+  </nav>
+
+  <main id="app">
+    <section id="inicio" class="pantalla">
+      <svg id="logo" class="logo" viewBox="0 0 340 190" role="img" aria-label="Escañómetro"></svg>
+      <h1>Escañómetro</h1>
+      <p class="lema">¿Lo dijo la izquierda o la derecha?</p>
+      <p class="entrada">Diez frases reales del Congreso. Adivina quién las dijo y compruébalo con la fuente oficial.</p>
+      <p class="leyenda">Izquierda: PSOE y Sumar · Derecha: PP y Vox</p>
+      <p class="leyenda">Unos 2 minutos · sin registro · sin cookies</p>
+      <div id="error-catalogo" class="error-catalogo" hidden>
+        <p id="error-rotulo" class="error-rotulo"></p>
+        <p id="error-texto" class="error-texto"></p>
+        <button id="reintentar" class="tecla principal">Reintentar</button>
+      </div>
+      <button id="empezar" class="tecla principal reto-boton"><span>Juega el reto de hoy</span><small id="reto-num">Reto nº 1</small></button>
+      <p class="reto-explica">Las mismas diez frases para todo el mundo durante el día. Compara tu resultado; mañana, otro reto.</p>
+      <button id="libre" class="tecla libre-boton">Partida libre · frases al azar</button>
+      <details class="como">
+        <summary>Cómo se juega</summary>
+        <div class="como-texto">
+          <p>Desliza cada ficha hacia el bloque que crees que la dijo y mira la aguja: un poco es
+             <b>creo que</b>, hasta el fondo es <b>seguro</b>.</p>
+          <p class="regla"><span>Creo que</span> acierto +1 · fallo 0<br><span>Seguro</span> acierto +2 · fallo −2</p>
+          <p class="nota">Frases sobre sanidad, vivienda y pensiones de la XV Legislatura (2023-2026).
+             Cada una enlaza a su fuente oficial.</p>
+        </div>
+      </details>
+    </section>
+
+    <section id="juego" class="pantalla" hidden>
+      <header class="visor">
+        <span><span id="contador">FRASE 01/10</span> · <span id="marcador-vivo" class="marcador-vivo">0 pts</span></span>
+        <ol id="progreso" class="progreso" aria-label="Progreso de la ronda"></ol>
+        <span id="lectura" aria-live="polite">EN REPOSO</span>
+      </header>
+      <div class="esfera">
+        <svg id="medidor" class="medidor" viewBox="0 0 340 196" aria-hidden="true"></svg>
+        <p class="placa" aria-hidden="true">Escañómetro · Mod. XV</p>
+      </div>
+
+      <article id="tarjeta" tabindex="0" aria-label="Frase. Desliza a izquierda o derecha.">
+        <span id="tema" class="pestana"></span>
+        <div id="giro">
+          <div class="cara frente">
+            <div class="ficha-cab"><span>Diario de Sesiones</span><span id="registro-num"></span></div>
+            <blockquote id="frase" class="frase"></blockquote>
+            <div class="ficha-pie"><span id="ficha-num"></span><span>Congreso de los Diputados</span></div>
+          </div>
+          <div class="cara dorso">
+            <div class="ficha-cab"><span>Registro</span><span id="tema-dorso"></span></div>
+            <blockquote id="frase-dorso" class="frase-dorso"></blockquote>
+            <div class="registro-fila">
+              <dl class="registro">
+                <dt>Lo dijo</dt><dd id="autor"></dd>
+                <dt>Grupo</dt><dd id="bloque"></dd>
+                <dt>Fecha</dt><dd id="fecha"></dd>
+                <dt>Tu apuesta</dt><dd id="apuesta"></dd>
+              </dl>
+              <div id="sello" class="sello"></div>
+              <figure id="retrato" class="retrato" hidden>
+                <figcaption>Foto: Congreso</figcaption>
+              </figure>
+            </div>
+            <div class="dorso-pie">
+              <a id="fuente" class="fuente" target="_blank" rel="noopener">Leer en el Diario de Sesiones ↗</a>
+              <button id="abrir-aviso" class="enlace aviso-enlace" type="button">¿Error en esta frase?</button>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <div id="botones-lado" class="teclado">
+        <button class="tecla" data-lado="IZQ" data-confianza="2" aria-label="Seguro: izquierda"><small><span class="flecha" aria-hidden="true">«</span>Seguro</small>Izquierda</button>
+        <button class="tecla" data-lado="IZQ" data-confianza="1" aria-label="Creo que: izquierda"><small><span class="flecha" aria-hidden="true">‹</span>Creo que</small>Izquierda</button>
+        <button class="tecla" data-lado="DER" data-confianza="1" aria-label="Creo que: derecha"><small>Creo que<span class="flecha" aria-hidden="true">›</span></small>Derecha</button>
+        <button class="tecla" data-lado="DER" data-confianza="2" aria-label="Seguro: derecha"><small>Seguro<span class="flecha" aria-hidden="true">»</span></small>Derecha</button>
+      </div>
+      <div id="revelacion" hidden>
+        <button id="siguiente" class="tecla principal">Siguiente</button>
+      </div>
+      <p id="pista-gesto" class="pista-gesto" hidden>Desliza la ficha · poco = creo que · al fondo = seguro</p>
+      <p class="teclas-ayuda">
+        <span><kbd>←</kbd><kbd>→</kbd> creo que</span>
+        <span><kbd class="ancha">⇧ Mayús</kbd>+<kbd>←</kbd><kbd>→</kbd> seguro</span>
+        <span><kbd class="ancha">Intro ↵</kbd> siguiente</span>
+      </p>
+      <p class="terminar"><button id="terminar" class="enlace">Terminar y ver mi puntuación</button></p>
+    </section>
+
+    <section id="final" class="pantalla" hidden>
+      <header class="visor"><span>Resultado</span><span id="final-version"></span></header>
+      <div id="titulo-final" class="titulo-final" hidden>
+        <p class="titulo-sello" id="titulo-sello"></p>
+        <p class="titulo-texto" id="titulo-texto"></p>
+      </div>
+      <div class="marcador">
+        <div><span class="etq">Puntos</span><span id="puntuacion" class="cifra"></span></div>
+        <div><span class="etq">Aciertos</span><span id="aciertos-final" class="cifra"></span></div>
+        <div><span class="etq">Fallos seguro</span><span id="fallos-final" class="cifra"></span></div>
+      </div>
+      <p id="tira" class="tira" aria-label="Resumen de la partida"></p>
+      <div id="por-tema" class="por-tema" hidden>
+        <p class="por-tema-rotulo">Dónde aciertas y dónde te engañan</p>
+        <ul id="por-tema-filas" class="por-tema-filas"></ul>
+        <p id="por-tema-frase" class="por-tema-frase"></p>
+      </div>
+      <p id="resumen" class="resumen"></p>
+      <p id="percentil" class="nota"></p>
+      <p id="manana" class="nota manana" hidden></p>
+      <p id="aviso-repeticion" class="nota destacado" hidden></p>
+      <div class="acciones">
+        <button id="compartir" class="tecla">Compartir</button>
+        <button id="otra" class="tecla principal">Partida libre</button>
+      </div>
+      <button id="guardar-imagen" class="enlace guardar-imagen">Guardar la imagen del resultado</button>
+      <div id="sorpresa" class="sorpresa" hidden>
+        <p class="sorpresa-rotulo">Tu sorpresa</p>
+        <p id="sorpresa-texto" class="sorpresa-texto"></p>
+        <button id="compartir-sorpresa" class="tecla">Compartir mi sorpresa</button>
+        <p id="sorpresa-nota" class="nota"></p>
+      </div>
+      <p id="copiado" class="nota" aria-live="polite"></p>
+      <div id="repaso" class="repaso" hidden>
+        <h2 class="repaso-titulo">Repaso de la partida</h2>
+        <ol id="repaso-lista" class="repaso-lista"></ol>
+      </div>
+    </section>
+  </main>
+
+  <dialog id="dialogo-aviso" class="dialogo">
+    <form id="form-aviso" method="dialog">
+      <h2>Avisar de un error</h2>
+      <p class="nota">Anónimo: no pedimos tu correo ni ningún dato tuyo. Comprobamos la frase
+         contra el Diario de Sesiones y la corregimos o la retiramos.</p>
+      <fieldset>
+        <legend>¿Qué falla?</legend>
+        <label><input type="radio" name="motivo" value="atribucion" required> No lo dijo esa persona</label>
+        <label><input type="radio" name="motivo" value="transcripcion"> El texto no es exacto</label>
+        <label><input type="radio" name="motivo" value="contexto"> Fuera de contexto cambia el sentido</label>
+        <label><input type="radio" name="motivo" value="otro"> Otra cosa</label>
+      </fieldset>
+      <label class="campo">Detalle (opcional, no incluyas datos personales)
+        <textarea name="texto" maxlength="500" rows="3"></textarea>
+      </label>
+      <p id="aviso-estado" class="nota" aria-live="polite"></p>
+      <div class="acciones">
+        <button type="button" id="cancelar-aviso" class="tecla">Cancelar</button>
+        <button type="submit" id="enviar-aviso" class="tecla principal">Enviar aviso</button>
+      </div>
+    </form>
+  </dialog>
+
+  <footer>
+    <p><a href="datos.html">Datos y condiciones</a> · <a href="mailto:hola@escanometro.com">hola@escanometro.com</a></p>
+    <p>Sin cookies y sin guardar nada en tu dispositivo. No te preguntamos tu opinión, solo tu atribución.</p>
+    <p id="version" class="nota"></p>
+  </footer>
+  <script src="medir.js" defer></script>
+  <script src="app.js"></script>
+</body>
+</html>

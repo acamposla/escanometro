@@ -1,0 +1,43 @@
+Vas a clasificar frases pronunciadas en el Congreso de los Diputados de España.
+Cada frase va numerada y lleva el tema por el que fue seleccionada. Responde dos
+preguntas por frase.
+
+PREGUNTA 1. tema: ¿La frase trata realmente del tema indicado?
+
+- sanidad: el sistema sanitario, la atención médica, hospitales, centros de salud,
+  listas de espera, personal sanitario, salud pública.
+- vivienda: el acceso a la vivienda, alquiler, compra, hipotecas, desahucios,
+  ocupación de inmuebles, construcción o parque de vivienda.
+- pensiones: las pensiones, la jubilación, las cotizaciones, la sostenibilidad del
+  sistema de pensiones.
+
+Responde false si la palabra que la seleccionó aparece con otro sentido (por
+ejemplo, "la salud de la democracia" no es sanidad) o si el tema solo se menciona
+de pasada dentro de una frase que trata de otra cosa.
+
+PREGUNTA 2. postura: ¿La frase afirma algo sobre el tema que se pueda discutir?
+
+Responde true si contiene una posición, una valoración, una propuesta, una
+crítica, un diagnóstico o un dato usado como argumento.
+
+Responde false si es trámite o relleno: saludos, agradecimientos, anuncios de
+procedimiento, frases que solo enumeran, o frases incompletas que no se entienden
+sin la frase anterior.
+
+REGLAS
+
+- No decidas ni insinúes a qué partido o bloque pertenece la frase. No se te pide.
+- No exijas que la frase suene de izquierdas o de derechas. Una postura moderada,
+  técnica o inesperada cuenta igual que una contundente.
+- Juzga solo el texto. No uses lo que sepas de quién pudo decirla.
+- Si la respuesta a la pregunta 1 es false, la pregunta 2 se responde igual, sin
+  cambiar el criterio.
+
+FORMATO
+
+Responde solo con un objeto JSON, sin texto antes ni después, con una entrada por
+cada frase recibida y en el mismo orden:
+
+{"resultados": [{"n": 1, "tema": true, "postura": false}, {"n": 2, "tema": false, "postura": true}]}
+
+FRASES

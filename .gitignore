@@ -1,0 +1,28 @@
+# Datos derivados: se regeneran con los scripts (semilla fija en muestrear.py)
+datos/*
+!datos/.gitkeep
+corpus/
+
+# Credenciales
+.env
+*.token
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+*.egg-info/
+.pytest_cache/
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Notebooks
+.ipynb_checkpoints/
+
+# Estado local de wrangler (D1 local, caches)
+.wrangler/
+.playwright-mcp/

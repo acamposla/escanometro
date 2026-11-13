@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="canonical" href="https://escanometro.com/metodologia.html">
+  <title>Metodología · Escañómetro</title>
+  <meta name="description" content="Cómo se seleccionan las frases, cómo se validó el clasificador y qué límites tiene el método. Publicado antes de tener resultados.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="es_ES">
+  <meta property="og:site_name" content="Escañómetro">
+  <meta property="og:title" content="Escañómetro: ¿lo dijo la izquierda o la derecha?">
+  <meta property="og:description" content="Frases reales del Congreso de los Diputados de España. Desliza cada una hacia el bloque que crees que la dijo, apuesta y compruébalo con la fuente oficial.">
+  <meta property="og:url" content="https://escanometro.com/metodologia.html">
+  <meta property="og:image" content="https://escanometro.com/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Escañómetro. Congreso de los Diputados, España. ¿Lo dijo la izquierda o la derecha? Un hemiciclo con un interrogante.">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="/favicon.ico" sizes="48x48">
+  <link rel="icon" href="/favicon-96.png" type="image/png" sizes="96x96">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="theme-color" content="#F2EEE4" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#171614" media="(prefers-color-scheme: dark)">
+</head>
+<body>
+  <nav class="menu"><a href="./">Jugar</a><a href="sobre.html">Sobre</a><a href="metodologia.html" aria-current="page">Método</a></nav>
+  <main class="prosa">
+    <h1>Metodología</h1>
+
+    <p class="destacado">Este procedimiento se publica antes de tener resultados. Es la
+       única defensa real contra la acusación de partidismo: el método se declara primero
+       y cualquiera puede comprobarlo.</p>
+
+    <h2>1. Fuente</h2>
+    <p>Diario de Sesiones del Congreso de los Diputados, XV Legislatura, del 17 de agosto
+       de 2023 al 23 de septiembre de 2026: 824 sesiones y 76.421 intervenciones. Se parte
+       del parseo abierto del proyecto
+       <a href="https://github.com/jorgegarcelan/escano-abierto">escano-abierto</a> (licencia MIT), y cada frase del
+       juego enlaza al PDF oficial de su sesión.</p>
+
+    <h2>2. Grupos: solo cuatro, y por qué</h2>
+    <p>PP y Vox forman el bloque de la derecha; PSOE y Sumar, el de la izquierda. Junts,
+       PNV, ERC, EH Bildu y el Grupo Mixto quedan fuera por diseño, no por ideología: su
+       posición en el eje izquierda-derecha es discutible, y una respuesta correcta
+       discutible invalida el instrumento. Como efecto lateral, los cuatro grupos
+       incluidos intervienen en castellano.</p>
+
+    <h2>3. Selección: ninguna frase la elige una persona</h2>
+    <p>Cada paso es automático y está en el código. Si una exclusión no cabe en un
+       filtro, no se aplica.</p>
+    <ol>
+      <li><strong>Segmentación.</strong> Cada intervención se parte en frases.</li>
+      <li><strong>Saneamiento.</strong> Se quitan las acotaciones del taquígrafo. Las
+          frases con palabras pegadas por el parseo del PDF se descartan en vez de
+          reconstruirse.</li>
+      <li><strong>Longitud.</strong> Entre 80 y 180 caracteres.</li>
+      <li><strong>Tema.</strong> Una lista de palabras por tema. Es un punto de sesgo y
+          se declara: sanidad (<code>sanidad, sanitari-, lista de espera, atención
+          primaria, hospital</code>), vivienda (<code>vivienda, alquiler, inquilin-,
+          desahucio, okupa, hipotec-</code>) y pensiones (<code>pensión, jubilaci-,
+          cotizaci-</code>).</li>
+      <li><strong>Autodelación.</strong> Fuera toda frase que revele al emisor sin
+          razonar: nombres y siglas de partido, "nuestro grupo", "usted", "señor
+          ministro", el aparato de la sesión.</li>
+      <li><strong>Citas de terceros.</strong> Fuera todo lo que va entre comillas o tras
+          un verbo de cita. Sin este filtro, un diputado citando a su rival produciría
+          una atribución falsa con datos correctos.</li>
+      <li><strong>Lengua.</strong> Solo castellano. No se traduce: una traducción deja
+          de ser cita.</li>
+      <li><strong>Fecha.</strong> Sin fecha no hay fuente citable.</li>
+      <li><strong>Clasificación con un modelo de lenguaje</strong> (sección 4).</li>
+      <li><strong>Juicio de calidad con dos modelos independientes</strong> (sección 4 bis).</li>
+      <li><strong>Muestreo aleatorio con semilla fija</strong>, con el mismo número de
+          frases por tema y bloque aunque el corpus no esté equilibrado.</li>
+      <li><strong>Cotejo con el PDF oficial</strong> (sección 5).</li>
+      <li><strong>Criba por dificultad medida.</strong> Una frase sale del catálogo
+          cuando acumula al menos 15 respuestas y el 85% o más son aciertos. La regla se
+          fijó el 4 de octubre de 2026, antes de tener ninguna respuesta, y no se cambia a
+          la vista de los datos. Se publicará la lista de frases retiradas con sus cifras.
+          <em>Pendiente: requiere jugadores.</em></li>
+    </ol>
+    <p>Los filtros de los pasos 1 a 8 dejan 3.724 frases candidatas (3.779 combinaciones de
+       frase y tema: una frase puede tocar dos temas). La lista de exclusión por autodelación
+       incluye también nombres de líderes políticos, siglas de otros grupos y términos
+       institucionales catalanes; se descartan las frases con palabras pegadas por el
+       parseo del PDF y las que empiezan remitiendo a lo dicho antes ("Eso es...", "Fueron
+       esas políticas..."), las que continúan algo que no está en ellas ("Lo hizo con...", "A
+       esto se suma...", "Y, quinto, ..."), las que juntan dos frases sin espacio o acaban en
+       puntos suspensivos, las que cuentan lo que dicen otros ("dicen que...") y el
+       "nosotras" de grupo, que delata a quien habla. Cada ampliación de un filtro se hizo con una regla escrita y un test,
+       nunca quitando frases sueltas.</p>
+
+    <h2>4. El clasificador y su validación a ciegas</h2>
+    <p>Un modelo de lenguaje de pesos abiertos (<code>qwen3-32b</code>, ejecutado en
+       local) lee cada frase candidata y responde dos preguntas: si trata de verdad del
+       tema y si afirma algo que se pueda defender o atacar en un debate, frente al
+       trámite y el relleno. El modelo nunca ve el partido ni el orador: decide si la frase
+       sirve, no de qué lado es.</p>
+    <p>El modelo se eligió comparando tres candidatos con una revisión humana a ciegas de
+       50 frases tomadas al azar: la persona que revisó solo veía el tema y el texto, sin
+       partido, sin orador y sin la respuesta de ningún modelo. La primera ronda reveló
+       que el criterio de "postura" era ambiguo (acuerdo de entre el 42% y el 50%); se
+       reescribió la definición, se repitió la revisión y se eligió el modelo con mejor
+       resultado:</p>
+    <table>
+      <thead><tr><th>Pregunta</th><th>Acuerdo con la revisión humana</th><th>Kappa de Cohen</th></tr></thead>
+      <tbody>
+        <tr><td>¿Trata del tema?</td><td>90%</td><td>no informativo*</td></tr>
+        <tr><td>¿Afirma una postura?</td><td>86%</td><td>0,41</td></tr>
+      </tbody>
+    </table>
+    <p class="nota">* La revisión humana marcó como "del tema" 47 de 50 frases; con una
+       proporción tan alta la kappa es inestable y no se interpreta.</p>
+    <p>De las candidatas, 3.227 superan el clasificador. Las del catálogo se confirmaron después
+       una a una (sin mezclarlas en lotes, que alteran levemente el veredicto) con el mismo
+       modelo, parte en local y parte a través de un proveedor externo; donde se hicieron por
+       las dos vías, coincidieron en el 95% de los casos.</p>
+    <p>El modelo no descartó ninguna frase que la revisión considerara válida, pero solo
+       detectó 3 de cada 10 frases de relleno. Por eso se añadió el juicio de calidad
+       (sección 4 bis), y lo que aun así pase lo elimina el paso 13:
+       una frase vacía no la coloca nadie con seguridad. Las instrucciones del modelo se
+       publican íntegras. <em>Pendiente: una segunda revisión humana independiente sobre
+       las mismas 50 frases, para medir cuánto coinciden dos personas entre sí.</em></p>
+
+    <h2>4 bis. Juicio de calidad (desde la versión 2.0)</h2>
+    <p>Una frase solo sirve si se entiende sola, sin lo que se dijo antes. Leídas a ciegas
+       (sin partido ni orador), el 43% de las 150 frases de la primera edición del catálogo
+       tenía algún defecto: dependía de algo que no estaba en ella ("¿Lo hicieron al
+       aprobar sus reformas…?"), era trámite o un dato suelto, o venía rota. Desde la versión
+       2.0, dos modelos de lenguaje independientes (Claude Sonnet 4.6 y DeepSeek V3.2)
+       responden tres preguntas sobre cada candidata: si se entiende sola, si afirma algo
+       que se pueda defender o rechazar, y si delata a quien la dice. Tampoco ven el partido
+       ni el orador. Una frase entra solo si los dos la aprueban. Las instrucciones se
+       publican íntegras.</p>
+    <p>La referencia para medirlo es una lectura a ciegas de las frases hecha por un tercer
+       modelo de lenguaje (Claude Opus), distinto de los dos jueces. Sobre las 150 frases de
+       la primera edición, con las que se afinaron las instrucciones, la proporción de
+       frases defectuosas entre las aprobadas baja del 43% al 10%. En una muestra nueva de 60
+       frases del catálogo actual, leídas a ciegas después de hacerlo, es del 10% (6 de 60;
+       con una muestra así, entre el 5% y el 20%). Lo que queda son sobre todo sujetos que
+       no se dicen ("Exigían algo tan elemental…").</p>
+    <p>Los dos jueces aprueban 1.478 de las 3.227 candidatas (46%): el 46% de las de la
+       izquierda y el 45% de las de la derecha. Por tema hay diferencias en los dos sentidos:
+       en pensiones aprueban el 53% de la izquierda y el 42% de la derecha; en sanidad, el
+       36% y el 42%; en vivienda, el 49% y el 48%. Como el catálogo toma el mismo número de
+       frases de cada tema y bloque, esas diferencias no cambian su composición.</p>
+
+    <h2>5. Cotejo con la fuente oficial</h2>
+    <p>Cada frase se busca en el PDF oficial del Diario de Sesiones, palabra por palabra, y se
+       comprueba que aparece en el turno de palabra del orador al que se atribuye. Se hace con
+       dos métodos independientes: el texto extraído del PDF y el texto con la maquetación de
+       la página. Entra en el catálogo si al menos uno la confirma y ninguno la sitúa en el
+       turno de otra persona. En la versión 2.0, de 330 candidatas, 307 las confirmaron los
+       dos métodos, 3 solo uno y 9 ninguno; en otras 11 un método encontró la frase en el
+       turno de otra persona (a menudo un compareciente que no es diputado) y se retiraron
+       aunque el otro método la confirmara. Las 240 frases del catálogo están cotejadas: 238
+       por los dos métodos y 2 por uno.</p>
+
+    <h2>6. Límites declarados</h2>
+    <ul>
+      <li><strong>Gobierno y oposición.</strong> Todas las frases son de una legislatura
+          en la que gobierna la izquierda. Una frase que delata a quien gobierna o a quien
+          está en la oposición se puede acertar sin pasar por el eje izquierda-derecha. No
+          se filtra, porque ni la revisión humana ni el modelo lo distinguen de forma
+          fiable. Cada frase lleva una etiqueta de rol y los resultados se publicarán por
+          separado para las frases que lo delatan y las que no.</li>
+      <li><strong>Diferencias del clasificador entre bloques.</strong> En pensiones
+          descarta más frases de la derecha (19% frente a 11%), casi todas porque la
+          palabra "cotización" aparecía hablando de impuestos y no de pensiones. En
+          sanidad descarta más de la izquierda (24% frente a 18%), sobre todo frases en
+          las que el Gobierno describe su gestión.</li>
+      <li><strong>Una sola legislatura.</strong> El juego mide el eje en un momento
+          concreto, no su evolución.</li>
+      <li><strong>Las palabras de cada tema</strong> deciden qué frases entran en el
+          punto de partida, y otra lista habría dado otro conjunto.</li>
+    </ul>
+
+    <h2>7. La métrica</h2>
+    <p>No es la tasa de acierto, sino el acierto condicionado a la confianza. Una frase
+       que nadie sabe colocar y una que todos colocan mal dan el mismo 50% de acierto y
+       significan lo contrario. Por eso cada respuesta es una apuesta: "creo que" suma 1
+       punto si aciertas y 0 si fallas; "seguro" suma 2 o resta 2. Así, marcar "seguro"
+       sin estarlo tiene un coste. El marcador se ve durante la partida; para que eso no
+       contamine la medida de la confianza (quien va perdiendo podría apostar "seguro" por
+       estrategia), cada respuesta guarda los puntos que se llevaban y el análisis lo tiene en
+       cuenta.</p>
+
+    <h2>Retratos</h2>
+    <p>Los retratos que aparecen al girar cada ficha son las fotografías oficiales del
+       Congreso de los Diputados (congreso.es), reproducidas sin ninguna modificación
+       según sus condiciones de reutilización, consultadas el 5 de octubre de 2026. Las
+       diputadas y diputados que dejaron el escaño durante la legislatura aparecen sin
+       foto: solo se muestra un retrato cuando la identificación es inequívoca.</p>
+
+    <h2>Reto diario</h2>
+    <p>Cada día hay un reto con las mismas diez frases para todo el mundo (cinco de cada
+       bloque), elegidas al azar a partir de la fecha y del catálogo, sin intervención de nadie.
+       El percentil del reto compara solo con quienes han jugado ese reto. Repetirlo en la
+       misma pestaña cuenta como partida libre.</p>
+
+    <h2>Qué se comparte</h2>
+    <p>Al terminar se puede compartir una imagen con el resultado, sin ninguna frase, que
+       incluye el percentil cuando ya hay al menos 20 partidas completas con las que comparar.
+       El percentil cuenta partidas, no personas: una misma persona puede jugar varias y no
+       hay forma de saberlo. En
+       partida libre se puede compartir además "tu sorpresa": una sola frase, la que fallaste
+       con "seguro" (o, si no hubo ninguna, la que fallaste más deprisa). La elige tu propio
+       fallo, no el proyecto, y va siempre con su autor, su grupo, la fecha y la referencia
+       del Diario de Sesiones. En el reto del día no se ofrece, para no desvelar las
+       respuestas a quien aún no lo ha jugado. Nada de esto sale del navegador: la imagen se
+       dibuja en tu dispositivo y no se guarda en ningún servidor.</p>
+
+    <h2>8. Datos que se guardan</h2>
+    <p>Cada ronda de diez frases es una partida con su propio identificador. Una misma
+       persona puede jugar varias rondas y no hay forma de saberlo: los resultados se
+       publican por respuesta y por partida, nunca por persona.</p>
+    <p>Por cada respuesta: la frase, el lado elegido, si acertó, la confianza y el tiempo
+       de reacción; de qué tipo de web llegó el jugador o con qué enlace de campaña, si se
+       conecta desde España y si la conexión sale de un centro de datos (para separar
+       robots en el análisis, que se publicará con ese desglose), junto a un identificador
+       de partida aleatorio que vive solo en la
+       pestaña mientras juegas. No se guarda la IP, el navegador ni ningún dato que te
+       identifique, y no se usan cookies ni almacenamiento en tu dispositivo. Aparte, un
+       contador de visitas sin cookies (Umami) registra páginas vistas y acciones generales,
+       sin cruzarlas con las respuestas; el detalle está en
+       <a href="datos.html">Datos y condiciones</a>.</p>
+
+    <h2>9. Análisis y publicación</h2>
+    <ul>
+      <li>Se descartarán las partidas con tiempos de reacción imposibles (por debajo de
+          unos 400 ms es un reflejo, no un juicio) y las de acierto perfecto en tiradas
+          largas, y se publicará cuántas y por qué.</li>
+      <li>Los resultados se describen, no se interpretan: "el N% de las frases se atribuye
+          al bloque equivocado", nunca "los partidos dicen lo mismo".</li>
+      <li>Se publican completos, con el desglose por tema y por grupo, incluidos los que
+          no favorezcan ninguna lectura.</li>
+    </ul>
+
+    <h2>10. Correcciones</h2>
+    <p>Una frase señalada como mal atribuida se corrige o se retira, y el registro de
+       correcciones se publica. Además del aviso anónimo de cada ficha, se puede escribir a
+       <a href="mailto:hola@escanometro.com">hola@escanometro.com</a>.</p>
+  </main>
+  <footer>
+    <p><a href="datos.html">Datos y condiciones</a> · <a href="mailto:hola@escanometro.com">hola@escanometro.com</a></p>
+    <p>No usamos cookies ni guardamos nada en tu dispositivo.</p>
+  </footer>
+  <script src="medir.js" defer></script>
+</body>
+</html>

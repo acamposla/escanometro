@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><title>og</title>
+<style>
+@font-face { font-family: "Plex Serif"; src: url("ibm-plex-serif-latin-600-normal.woff2"); font-weight: 600; }
+@font-face { font-family: "Plex Serif"; src: url("ibm-plex-serif-latin-400-italic.woff2"); font-style: italic; }
+@font-face { font-family: "Plex Mono"; src: url("ibm-plex-mono-latin-600-normal.woff2"); font-weight: 600; }
+html, body { margin: 0; }
+body { width: 1200px; height: 630px; background: #F2EEE4; color: #1F1D1A; display: grid; grid-template-columns: 640px 1fr; align-items: center; overflow: hidden; }
+.izq { padding-left: 72px; }
+.rotulo { font: 600 18px "Plex Mono"; letter-spacing: 0.12em; white-space: nowrap; text-transform: uppercase; color: #86600F; margin: 0 0 22px; }
+h1 { font: 600 84px/1 "Plex Serif"; margin: 0; letter-spacing: -0.01em; }
+.lema { font: italic 40px/1.25 "Plex Serif"; color: #655F54; margin: 22px 0 0; }
+.pie { font: 600 18px "Plex Mono"; letter-spacing: 0.1em; text-transform: uppercase; color: #655F54; margin-top: 44px; border-top: 2px solid #D3CBB9; padding-top: 18px; display: inline-block; }
+svg { width: 500px; margin-left: 10px; }
+.escano { fill: #D3CBB9; } .on { fill: #86600F; }
+.int { font: 600 210px "Plex Serif"; fill: #1F1D1A; }
+</style></head><body>
+<div class="izq">
+  <p class="rotulo">Congreso de los Diputados · España</p>
+  <h1>Escañómetro</h1>
+  <p class="lema">¿Lo dijo la izquierda<br>o la derecha?</p>
+  <p class="pie">Frases reales · apuesta y compruébalo</p>
+</div>
+<svg viewBox="0 0 340 190" id="h"></svg>
+<script>
+const s=document.getElementById('h'), N='http://www.w3.org/2000/svg';
+for (const [r,n] of [[150,30],[130,26],[110,22],[90,18],[70,14]]) for (let k=0;k<n;k++){
+  const a=Math.PI-Math.PI*k/(n-1), c=document.createElementNS(N,'circle');
+  c.setAttribute('cx',170+r*Math.cos(a)); c.setAttribute('cy',172-r*Math.sin(a)); c.setAttribute('r',4.4);
+  c.setAttribute('class','escano'); s.appendChild(c);
+}
+const t=document.createElementNS(N,'text'); t.setAttribute('x',170); t.setAttribute('y',170); t.setAttribute('text-anchor','middle'); t.setAttribute('class','int'); t.textContent='?'; s.appendChild(t);
+</script></body></html>

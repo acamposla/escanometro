@@ -1,0 +1,3 @@
+# Fase 1-2 (pipeline del corpus): solo biblioteca estandar.
+# Se anaden dependencias cuando entren la puntuacion por LLM y la carga a Supabase.
+pytest>=8.0

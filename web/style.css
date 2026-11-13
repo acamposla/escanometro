@@ -1,0 +1,557 @@
+/* Escañómetro. Tokens en branding/escanometro-design-tokens.json.
+   Regla de roles: lo que se toca es instrumento (mono, latón, escala);
+   lo que se lee es documento (serif, papel, ficha). */
+
+@font-face { font-family: "Plex Serif"; src: url("fonts/ibm-plex-serif-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Plex Serif"; src: url("fonts/ibm-plex-serif-latin-400-italic.woff2") format("woff2"); font-weight: 400; font-style: italic; font-display: swap; }
+@font-face { font-family: "Plex Serif"; src: url("fonts/ibm-plex-serif-latin-600-normal.woff2") format("woff2"); font-weight: 600; font-display: swap; }
+@font-face { font-family: "Plex Mono"; src: url("fonts/ibm-plex-mono-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Plex Mono"; src: url("fonts/ibm-plex-mono-latin-600-normal.woff2") format("woff2"); font-weight: 600; font-display: swap; }
+
+:root {
+  --papel: #F2EEE4;
+  --ficha: #FBF8F1;
+  --tinta: #1F1D1A;
+  --tinta-suave: #655F54;
+  --linea: #D3CBB9;
+  --laton: #86600F;
+  --acierto: #24524C;
+  --fallo: #7E4220;
+  --sombra: 0 1px 0 rgba(31, 29, 26, 0.08), 0 2px 5px -2px rgba(31, 29, 26, 0.16); /* papel sobre la mesa: borde y sombra corta */
+  --doc: "Plex Serif", Georgia, "Times New Roman", serif;
+  --ins: "Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --t-aguja: 420ms;
+  --t-giro: 560ms;
+  --t-sello: 260ms;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --papel: #171614;
+    --ficha: #211F1B;
+    --tinta: #EDE7DA;
+    --tinta-suave: #A79F90;
+    --linea: #3B372F;
+    --laton: #D4A23C;
+    --acierto: #7FB8AE;
+    --fallo: #D99566;
+    --sombra: 0 1px 0 rgba(0, 0, 0, 0.45), 0 2px 6px -2px rgba(0, 0, 0, 0.6);
+  }
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--papel);
+  color: var(--tinta);
+  font: 17px/1.5 var(--doc);
+  overflow-x: hidden;
+}
+main, footer { max-width: 560px; margin: 0 auto; padding: 0 16px; }
+a { color: inherit; }
+.nota { color: var(--tinta-suave); font-size: 0.88rem; }
+
+/* Menu: rotulos de instrumento. */
+.menu {
+  max-width: 560px; margin: 0 auto; padding: 14px 16px 0;
+  display: flex; align-items: center; gap: 14px; white-space: nowrap;
+  font: 0.72rem/1 var(--ins); text-transform: uppercase; letter-spacing: 0.05em;
+}
+.menu a { color: var(--tinta-suave); text-decoration: none; padding: 8px 0; }
+.menu a[aria-current="page"] { color: var(--tinta); }
+.sonido { margin-left: auto; border: 0; background: none; color: var(--tinta-suave); font: inherit; letter-spacing: inherit; cursor: pointer; padding: 8px 0; min-height: 36px; }
+.sonido[aria-pressed="false"] { text-decoration: line-through; }
+
+/* Teclas: objetos fisicos que se hunden. */
+.tecla {
+  font: 600 0.82rem/1.15 var(--ins);
+  text-transform: uppercase; letter-spacing: 0.04em;
+  color: var(--tinta);
+  background: var(--ficha);
+  border: 1px solid var(--linea);
+  border-bottom-width: 4px;
+  border-radius: 8px;
+  min-height: 48px;
+  padding: 8px 10px;
+  cursor: pointer;
+  transition: transform 80ms ease-out;
+}
+.tecla:active { transform: translateY(3px); border-bottom-width: 1px; }
+.tecla small { display: block; font-weight: 400; font-size: 0.72rem; color: var(--tinta-suave); margin-bottom: 2px; }
+.tecla.principal { width: 100%; background: var(--tinta); color: var(--papel); border-color: var(--tinta); border-bottom-color: var(--laton); font-size: 0.92rem; }
+.tecla:focus-visible, #tarjeta:focus-visible, .enlace:focus-visible { outline: 2px solid var(--laton); outline-offset: 3px; }
+.enlace { border: 0; background: none; color: var(--tinta-suave); text-decoration: underline; font: 0.85rem var(--ins); min-height: 44px; cursor: pointer; }
+
+/* Inicio. */
+#inicio { padding-top: 12px; }
+.logo { display: block; width: 100%; max-width: 320px; margin: 8px auto 0; }
+.logo .escano { fill: var(--linea); }
+.logo .interrogante { fill: var(--tinta); font: 600 104px var(--doc); }
+h1 { font: 600 2.4rem/1.05 var(--doc); letter-spacing: -0.01em; margin: 0.4rem 0 0; text-align: center; }
+.lema { font: italic 1.15rem var(--doc); color: var(--tinta-suave); margin: 0.3rem 0 1.4rem; text-align: center; }
+.instrucciones { border-top: 1px solid var(--linea); padding-top: 1rem; margin-bottom: 1.4rem; }
+.regla { font: 0.8rem/1.7 var(--ins); letter-spacing: 0.03em; }
+.regla span { display: inline-block; min-width: 7.5em; color: var(--laton); font-weight: 600; }
+
+/* Visor: la linea de lectura del instrumento. */
+.visor {
+  display: flex; justify-content: space-between; gap: 12px;
+  font: 600 0.75rem/1 var(--ins); text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--tinta-suave);
+  border-bottom: 1px solid var(--linea);
+  padding: 14px 0 8px;
+}
+#lectura { color: var(--tinta); }
+#lectura.activa { color: var(--laton); }
+
+/* Medidor: el hemiciclo de escanos es la escala. */
+.medidor { display: block; width: 100%; max-width: 380px; margin: 4px auto 10px; overflow: visible; }
+.medidor .escano { fill: var(--linea); transition: fill 90ms linear; }
+.medidor .escano.encendido { fill: var(--laton); }
+.medidor .rotulo { font: 600 9px var(--ins); letter-spacing: 0.08em; fill: var(--tinta-suave); }
+.medidor .rotulo.zona { font-weight: 400; font-size: 7.5px; }
+.aguja { transform-origin: 170px 176px; transform: rotate(0deg); }
+.aguja line { stroke: var(--laton); stroke-width: 2.5; stroke-linecap: round; }
+.aguja circle { fill: var(--tinta); }
+.aguja.suelta { transition: transform var(--t-aguja) cubic-bezier(0.34, 1.45, 0.64, 1); }
+.aguja.reposo { animation: respira 3.2s ease-in-out infinite; }
+@keyframes respira { 0%, 100% { transform: rotate(-1.2deg); } 50% { transform: rotate(1.2deg); } }
+
+/* Ficha: el documento. Dos caras. */
+#tarjeta { perspective: 1200px; touch-action: pan-y; user-select: none; -webkit-user-select: none; transition: transform 0.18s ease-out; cursor: grab; }
+#tarjeta:active { cursor: grabbing; }
+#giro { position: relative; min-height: 300px; transform-style: preserve-3d; transition: transform var(--t-giro) cubic-bezier(0.45, 0, 0.2, 1); }
+#giro.girada { transform: rotateY(180deg); }
+.cara {
+  position: absolute; inset: 0;
+  -webkit-backface-visibility: hidden; backface-visibility: hidden;
+  background: var(--ficha);
+  border: 1px solid var(--linea);
+  border-radius: 6px;
+  box-shadow: var(--sombra);
+  padding: 18px 20px;
+  display: flex; flex-direction: column;
+  overflow: hidden;
+}
+/* Papel pautado muy tenue: ficha de archivo. */
+.cara::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0.5;
+  background: repeating-linear-gradient(to bottom, transparent 0 27px, color-mix(in srgb, var(--linea) 45%, transparent) 27px 28px);
+}
+.dorso { transform: rotateY(180deg); }
+.ficha-cab, .ficha-pie {
+  position: relative; display: flex; justify-content: space-between; gap: 8px;
+  font: 600 0.72rem/1 var(--ins); text-transform: uppercase; letter-spacing: 0.08em; color: var(--tinta-suave);
+}
+.ficha-cab { border-bottom: 1px solid var(--linea); padding-bottom: 10px; }
+.ficha-pie { margin-top: auto; padding-top: 10px; font-weight: 400; }
+.frase {
+  position: relative; margin: 18px 0 12px; padding: 0 0 0 0.45em;
+  font: 400 1.32rem/1.42 var(--doc); text-indent: -0.45em; hanging-punctuation: first;
+}
+.registro { position: relative; display: grid; grid-template-columns: auto 1fr; gap: 6px 14px; margin: 16px 0 12px; font-size: 1rem; }
+.registro dt { font: 600 0.72rem/1.8 var(--ins); text-transform: uppercase; letter-spacing: 0.08em; color: var(--tinta-suave); }
+.registro dd { margin: 0; }
+.fuente { position: relative; margin-top: auto; font: 600 0.78rem var(--ins); letter-spacing: 0.01em; color: var(--laton); }
+.sello {
+  position: absolute; right: 18px; bottom: 52px;
+  font: 600 1rem/1 var(--ins); letter-spacing: 0.14em; text-transform: uppercase;
+  padding: 7px 10px 6px; border: 2.5px double currentColor; border-radius: 4px;
+  transform: rotate(-7deg); opacity: 0;
+}
+.sello.acierto { color: var(--acierto); }
+.sello.fallo { color: var(--fallo); }
+#giro.girada .sello { animation: sella var(--t-sello) cubic-bezier(0.16, 1, 0.3, 1) var(--t-giro) forwards; }
+@keyframes sella { from { opacity: 0; transform: rotate(-7deg) scale(1.6); } to { opacity: 0.92; transform: rotate(-7deg) scale(1); } }
+
+/* Teclas de ordenador en relieve: la misma familia que las teclas del aparato. */
+kbd {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 26px; height: 26px; padding: 0 6px;
+  font: 600 0.78rem/1 var(--ins); color: var(--tinta);
+  background: linear-gradient(to bottom, var(--ficha), color-mix(in srgb, var(--ficha) 88%, var(--linea)));
+  border: 1px solid var(--linea); border-bottom-width: 3px; border-radius: 5px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6), 0 1px 2px rgba(31, 29, 26, 0.12);
+  text-transform: none;
+}
+kbd.ancha { padding: 0 8px; }
+kbd.pulsada, .tecla.pulsada { transform: translateY(2px); border-bottom-width: 1px; }
+.teclado { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 16px; }
+#revelacion { margin-top: 16px; }
+.teclas-ayuda { display: none; }
+.pista-gesto { text-align: center; font: 600 0.72rem var(--ins); letter-spacing: 0.05em; color: var(--laton); margin: 12px 0 -4px; }
+/* Demostracion del gesto en tactil: la ficha se balancea una vez. */
+#tarjeta.demo { animation: demo 2.2s cubic-bezier(0.45, 0, 0.2, 1) 0.5s 1; }
+@keyframes demo {
+  0%, 100% { transform: none; }
+  20% { transform: translateX(-34px) rotate(-1.6deg); }
+  45% { transform: translateX(-8px) rotate(-0.3deg); }
+  65% { transform: translateX(34px) rotate(1.6deg); }
+  85% { transform: translateX(6px) rotate(0.2deg); }
+}
+@media (pointer: fine) { .pista-gesto { display: none !important; } }
+.terminar { text-align: center; margin: 6px 0 0; }
+
+/* Final: el marcador del instrumento. */
+.marcador { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--linea); border: 1px solid var(--linea); border-radius: 6px; overflow: hidden; margin: 18px 0 14px; }
+.marcador > div { background: var(--ficha); padding: 12px 10px; display: flex; flex-direction: column; gap: 4px; }
+.etq { font: 600 0.72rem var(--ins); text-transform: uppercase; letter-spacing: 0.08em; color: var(--tinta-suave); }
+.cifra { font: 600 1.9rem/1 var(--ins); }
+.tira { display: flex; justify-content: center; align-items: center; gap: 12px; margin: 8px 0 4px; }
+.tira .punto { width: 12px; height: 12px; --fondo-punto: var(--papel); }
+.resumen { font-size: 1.1rem; }
+.acciones { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 8px; }
+.acciones .tecla.principal { width: auto; }
+
+footer { margin-top: 36px; padding-bottom: 24px; border-top: 1px solid var(--linea); }
+footer p { font: 0.72rem/1.5 var(--ins); color: var(--tinta-suave); }
+
+/* Paginas de texto: documento puro. */
+.prosa { max-width: 680px; padding-top: 8px; }
+.prosa h1 { text-align: left; font-size: 2.1rem; margin-top: 1.2rem; }
+.prosa h2 { font: 600 0.8rem var(--ins); text-transform: uppercase; letter-spacing: 0.1em; color: var(--laton); margin-top: 2.2rem; border-top: 1px solid var(--linea); padding-top: 1rem; }
+.prosa li { margin-bottom: 0.5rem; }
+.prosa table { border-collapse: collapse; width: 100%; font-size: 0.95rem; }
+.prosa th, .prosa td { text-align: left; border-bottom: 1px solid var(--linea); padding: 6px 8px 6px 0; }
+.prosa th { font: 600 0.72rem var(--ins); text-transform: uppercase; letter-spacing: 0.06em; color: var(--tinta-suave); }
+.prosa code { font: 0.82em var(--ins); overflow-wrap: anywhere; }
+.referencias { padding-left: 0; list-style: none; }
+.referencias li { border-top: 1px solid var(--linea); padding-top: 12px; margin-bottom: 1.25rem; }
+.cita { color: var(--tinta-suave); font-size: 0.86rem; }
+.destacado { font-style: italic; font-size: 1.1rem; color: var(--tinta); border-top: 1px solid var(--laton); border-bottom: 1px solid var(--laton); padding: 12px 0; }
+
+/* Escritorio: el mismo instrumento, mas grande, con teclado. */
+@media (min-width: 900px) and (pointer: fine) {
+  main, footer, .menu { max-width: 640px; }
+  .prosa { max-width: 680px; }
+  #giro { min-height: 320px; }
+  .frase { font-size: 1.5rem; }
+  .teclas-ayuda { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px 18px; font: 0.78rem/1 var(--ins); letter-spacing: 0.02em; color: var(--tinta-suave); margin: 16px 0 0; }
+  .teclas-ayuda span { display: inline-flex; align-items: center; gap: 4px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #giro, #tarjeta, .aguja.suelta { transition: none; }
+  .aguja.reposo { animation: none; }
+  #tarjeta.demo { animation: none; }
+  #giro.girada .sello { animation: none; opacity: 0.92; }
+}
+
+/* === P1: espacio y lectura en movil === */
+/* Objetivo medido en 375x667: "Empezar", la ficha y las teclas de apuesta sin scroll.
+   Las alturas usan svh (con vh de reserva) para encoger tambien con las barras de Safari. */
+
+/* Portada minima: logo, titulo, lema, una linea y "Empezar". Las reglas, plegadas debajo. */
+#inicio { padding-top: 4px; }
+#inicio .logo {
+  width: auto; max-width: 100%; aspect-ratio: 340 / 190; margin: 4px auto 0;
+  height: clamp(96px, 26vh, 179px);
+  height: clamp(96px, 26svh, 179px);
+}
+#inicio h1 { margin-top: 0.25rem; }
+#inicio .lema { margin: 0.2rem 0 0.7rem; }
+.entrada { font-size: 0.95rem; line-height: 1.45; color: var(--tinta-suave); text-align: center; margin: 0 0 0.35rem; text-wrap: balance; }
+.leyenda { font: 600 0.8rem/1.4 var(--ins); letter-spacing: 0.02em; color: var(--tinta-suave); text-align: center; margin: 0 0 1rem; text-wrap: balance; }
+.como { margin-top: 6px; }
+.como summary {
+  display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px;
+  list-style: none; cursor: pointer;
+  font: 600 0.72rem/1 var(--ins); text-transform: uppercase; letter-spacing: 0.06em; color: var(--tinta-suave);
+}
+.como summary::-webkit-details-marker { display: none; }
+.como summary::after { content: "+"; content: "+" / ""; color: var(--laton); font-size: 0.95rem; }
+.como[open] summary::after { content: "−"; content: "−" / ""; }
+.como summary:focus-visible { outline: 2px solid var(--laton); outline-offset: 2px; border-radius: 4px; }
+.como-texto { border-top: 1px solid var(--linea); padding-top: 0.8rem; font-size: 0.95rem; }
+.como-texto p { margin: 0 0 0.8rem; }
+
+/* La pista del gesto va debajo de las teclas: al ocultarse no mueve "Siguiente". */
+.pista-gesto { margin: 10px 0 0; text-wrap: balance; }
+
+/* Reverso: la frase, pequena y en cursiva, encima del registro. Si no cabe, cede ella
+   (se recorta) y nunca el enlace a la fuente. */
+.dorso { padding: 16px 20px; }
+.frase-dorso {
+  position: relative; flex: 0 1 auto; min-height: 2.8em; overflow: hidden;
+  display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3;
+  margin: 10px 0 0; padding: 0 0 0 0.4em; text-indent: -0.4em;
+  font: italic 400 0.8rem/1.38 var(--doc); color: var(--tinta-suave);
+}
+.dorso .registro { margin: 10px 0 6px; gap: 3px 14px; align-items: baseline; font-size: 0.92rem; line-height: 1.35; }
+.dorso .registro dt { line-height: 1.8; }
+/* Zona tactil de 44 px para el enlace a la fuente sin cambiar su aspecto. */
+.fuente::after { content: ""; position: absolute; inset: -14px -6px; }
+
+/* Pantallas bajas: medidor mas pequeno, menos margenes, ficha a la medida. */
+@media (max-height: 740px) {
+  .menu { padding-top: 6px; }
+  #juego .visor { padding: 8px 0 6px; }
+  .medidor {
+    width: auto; aspect-ratio: 340 / 196; margin: 2px auto 4px;
+    height: clamp(88px, 19vh, 132px);
+    height: clamp(88px, 19svh, 132px);
+  }
+  .medidor .rotulo { font-size: 15px; } /* compensa la escala: sigue en unos 9 px */
+  #giro {
+    min-height: clamp(258px, 44vh, 300px);
+    min-height: clamp(258px, 44svh, 300px);
+  }
+  .cara { padding: 12px 16px; }
+  .ficha-cab { padding-bottom: 8px; }
+  .ficha-pie { padding-top: 8px; }
+  .frase { font-size: 1.15rem; line-height: 1.36; margin: 10px 0 8px; }
+  .frase-dorso { margin-top: 8px; }
+  .dorso .registro { margin: 8px 0 4px; gap: 2px 12px; font-size: 0.88rem; }
+  .sello { right: 14px; bottom: 42px; }
+  .teclado, #revelacion { margin-top: 8px; }
+  .pista-gesto { margin-top: 8px; }
+}
+
+/* === P2: progreso, avance y repaso === */
+.solo-lector { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+/* Progreso: diez escanos engastados en la regla del visor, del tamano de los de la escala.
+   Pendiente apagado, actual en laton; respondido: lleno acierto, hueco fallo, anillo = seguro.
+   Fuera del flujo: no anade altura al visor. */
+#juego .visor { position: relative; }
+.progreso {
+  position: absolute; left: 50%; bottom: -0.5px; transform: translate(-50%, 50%);
+  display: flex; align-items: center; gap: 8px;
+  margin: 0; padding: 0 6px; list-style: none;
+  background: var(--papel); /* corta la regla: los puntos sustituyen ese tramo */
+}
+.punto {
+  --fondo-punto: var(--papel);
+  display: inline-block; flex: none; position: relative;
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--linea); color: var(--linea);
+}
+.punto.actual { background: var(--laton); transform: scale(1.3); }
+.punto.acierto { background: var(--acierto); color: var(--acierto); }
+.punto.fallo { background: transparent; color: var(--fallo); box-shadow: inset 0 0 0 1.5px var(--fallo); }
+.punto.seguro { box-shadow: 0 0 0 1.5px var(--fondo-punto), 0 0 0 2.75px currentColor; }
+.punto.fallo.seguro { box-shadow: inset 0 0 0 1.5px var(--fallo), 0 0 0 1.5px var(--fondo-punto), 0 0 0 2.75px currentColor; }
+.punto.recien { animation: punto-sella var(--t-sello) cubic-bezier(0.16, 1, 0.3, 1); }
+@keyframes punto-sella { from { opacity: 0; transform: scale(2.2); } to { opacity: 1; transform: scale(1); } }
+
+/* Avance: la ficha girada se toca para pasar a la siguiente. */
+#tarjeta.avanzable, #tarjeta.avanzable:active { cursor: pointer; }
+
+/* Repaso: las frases de la partida en miniatura. Lo que se lee, en serif; la apuesta, en mono. */
+.repaso { margin-top: 28px; }
+.repaso-titulo {
+  font: 600 0.72rem/1 var(--ins); text-transform: uppercase; letter-spacing: 0.1em; color: var(--tinta-suave);
+  margin: 0 0 12px; padding-bottom: 8px; border-bottom: 1px solid var(--linea);
+}
+.repaso-lista { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.repaso-item {
+  background: var(--ficha); border: 1px solid var(--linea); border-radius: 6px;
+  padding: 10px 14px 0;
+}
+.repaso-item .punto { --fondo-punto: var(--ficha); }
+.repaso-cab, .repaso-pie {
+  display: flex; align-items: center; gap: 8px;
+  font: 600 0.72rem/1.25 var(--ins); text-transform: uppercase; letter-spacing: 0.08em; color: var(--tinta-suave);
+}
+.repaso-resultado { margin-left: auto; text-align: right; }
+.repaso-resultado.acierto { color: var(--acierto); }
+.repaso-resultado.fallo { color: var(--fallo); }
+.repaso-frase {
+  margin: 8px 0 4px; padding-left: 0.45em; text-indent: -0.45em;
+  font: 400 0.98rem/1.4 var(--doc);
+  display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; line-clamp: 3; overflow: hidden;
+}
+.repaso-autor { margin: 0; font: 0.86rem/1.4 var(--doc); color: var(--tinta-suave); }
+.repaso-pie { flex-wrap: wrap; justify-content: space-between; gap: 0 12px; font-weight: 400; }
+.repaso-fuente {
+  display: inline-flex; align-items: center; min-height: 44px; margin-left: auto; padding: 0 2px;
+  color: var(--laton); font-weight: 600;
+}
+.repaso-fuente:focus-visible { outline: 2px solid var(--laton); outline-offset: 2px; }
+/* Fallo estando seguro: la ficha que mas dice. Sale del fichero con borde doble y sello, sin rojo. */
+.repaso-item.fallo-seguro { border: 2.5px double var(--fallo); box-shadow: var(--sombra); }
+.repaso-item.fallo-seguro .repaso-resultado {
+  border: 2px double currentColor; border-radius: 3px; padding: 3px 6px 2px; transform: rotate(-3deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .punto.recien { animation: none; }
+}
+
+/* === P3: botones, errores y accesibilidad === */
+
+/* Teclas de apuesta: arriba la confianza con su flecha (simple = creo que, doble = seguro),
+   abajo el bloque entero. Cuentas a 375 px: main 343 px, 3 huecos de 8 => columna de
+   79,75 px; menos 2 de borde y 2 x 4 de relleno quedan 69,75 px. Plex Mono avanza 0,6 em:
+   "IZQUIERDA" (9) a 12 px (3,2vw) = 64,8 px; "‹ CREO QUE" (9 + 0,2 em) a 10,9 px = 60,9 px.
+   A 320 px tambien cabe (56 px utiles: 55,3 y 52,0). Solo se toca el relleno lateral y el
+   cuerpo de letra baja: la tecla no crece (49,3 px a 375 frente a 50,6 de antes). */
+#botones-lado .tecla {
+  padding-left: 4px; padding-right: 4px; min-width: 0;
+  font-size: clamp(0.625rem, 3.2vw, 0.82rem); letter-spacing: 0;
+  overflow-wrap: anywhere;
+}
+#botones-lado .tecla small { font-size: clamp(0.69rem, 3vw, 0.74rem); letter-spacing: 0; }
+#botones-lado .flecha { color: var(--tinta); font-weight: 600; }
+#botones-lado .tecla[data-lado="IZQ"] .flecha { margin-right: 0.2em; }
+#botones-lado .tecla[data-lado="DER"] .flecha { margin-left: 0.2em; }
+
+/* Error de carga: rotulo de instrumento y texto de documento, sin dramatismo. */
+.error-catalogo {
+  margin: 0 0 1.4rem; padding: 14px 16px 16px;
+  background: var(--ficha); border: 1px solid var(--laton); border-radius: 6px;
+}
+.error-rotulo { margin: 0 0 6px; font: 600 0.72rem/1.2 var(--ins); text-transform: uppercase; letter-spacing: 0.08em; color: var(--tinta); }
+.error-texto { margin: 0 0 14px; }
+
+/* Solo para lectores de pantalla (anuncio del veredicto y de errores). */
+.solo-lector {
+  position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; border: 0;
+  overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap;
+}
+
+/* Foco visible en todo lo que se toca, no solo en las teclas. */
+a:focus-visible, button:focus-visible, [tabindex]:focus-visible { outline: 2px solid var(--laton); outline-offset: 3px; }
+/* Los puntos de llegada del foco (tabindex -1) no son controles: sin anillo. */
+[tabindex="-1"]:focus { outline: none; }
+
+/* Pagina actual del menu: no solo por color. */
+.menu a[aria-current="page"] {
+  text-decoration: underline; text-decoration-thickness: 2px;
+  text-underline-offset: 5px; text-decoration-color: var(--laton);
+}
+
+/* Foco de la ficha (se enfoca por programa en cada frase): visible solo con teclado. */
+body:not(.con-teclado) #tarjeta:focus,
+body:not(.con-teclado) #tarjeta:focus-visible,
+body:not(.con-teclado) #siguiente:focus-visible { outline: none; }
+
+/* === Retrato en el reverso: imagen oficial del Congreso, sin alterar === */
+.registro-fila { position: relative; display: flex; align-items: flex-start; gap: 12px; }
+.registro-fila .registro { flex: 1; min-width: 0; }
+.retrato { margin: 10px 0 0; flex: none; text-align: center; }
+.retrato img { display: block; width: 62px; height: 82px; object-fit: cover; border: 1px solid var(--linea); border-radius: 3px; background: var(--papel); }
+.retrato figcaption { font: 0.7rem/1.3 var(--ins); text-transform: uppercase; letter-spacing: 0.04em; color: var(--tinta-suave); margin-top: 3px; }
+@media (max-height: 740px) {
+  .retrato img { width: 50px; height: 66px; }
+  .retrato { margin-top: 8px; }
+}
+
+/* === Aviso de error (dialogo anonimo) === */
+.dorso-pie { position: relative; margin-top: auto; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 4px 12px; }
+.dorso-pie .fuente { margin-top: 0; }
+.aviso-enlace { min-height: 32px; padding: 0; font-size: 0.72rem; }
+.dialogo { border: 1px solid var(--linea); border-radius: 8px; background: var(--ficha); color: var(--tinta); padding: 18px 20px; max-width: min(440px, calc(100vw - 32px)); box-shadow: var(--sombra); }
+.dialogo::backdrop { background: rgba(23, 22, 20, 0.45); }
+.dialogo h2 { font: 600 0.82rem var(--ins); text-transform: uppercase; letter-spacing: 0.08em; color: var(--laton); margin: 0 0 6px; }
+.dialogo fieldset { border: 0; padding: 0; margin: 12px 0; display: grid; gap: 8px; }
+.dialogo legend { font: 600 0.72rem var(--ins); text-transform: uppercase; letter-spacing: 0.06em; color: var(--tinta-suave); margin-bottom: 6px; }
+.dialogo label { display: flex; gap: 8px; align-items: center; min-height: 32px; }
+.dialogo .campo { display: grid; gap: 6px; font-size: 0.85rem; color: var(--tinta-suave); }
+.dialogo textarea { font: 1rem var(--doc); color: var(--tinta); background: var(--papel); border: 1px solid var(--linea); border-radius: 6px; padding: 8px; resize: vertical; }
+.dialogo input[type="radio"] { accent-color: var(--laton); width: 18px; height: 18px; }
+
+/* === Titulo de la partida: un sello de archivo sobre como apuestas === */
+.titulo-final { text-align: center; margin: 18px 0 4px; }
+.titulo-sello {
+  display: inline-block; margin: 0;
+  font: 600 1.05rem/1 var(--ins); letter-spacing: 0.12em; text-transform: uppercase; color: var(--laton);
+  padding: 9px 14px 8px; border: 2.5px double currentColor; border-radius: 4px; transform: rotate(-3deg);
+  animation: sella-titulo var(--t-sello) cubic-bezier(0.16, 1, 0.3, 1) 120ms both;
+}
+@keyframes sella-titulo { from { opacity: 0; transform: rotate(-3deg) scale(1.6); } to { opacity: 1; transform: rotate(-3deg) scale(1); } }
+.titulo-texto { font: italic 1.05rem var(--doc); color: var(--tinta-suave); margin: 10px 0 0; }
+@media (prefers-reduced-motion: reduce) { .titulo-sello { animation: none; } }
+
+/* Sello dentro de la fila del registro: estampado junto al retrato, como en un
+   expediente. Nunca tapa el enlace a la fuente. */
+.registro-fila .sello { top: 64px; bottom: auto; right: -8px; font-size: 0.9rem; padding: 6px 8px 5px; z-index: 1; }
+@media (max-height: 740px) { .registro-fila .sello { top: 52px; bottom: auto; right: -8px; } }
+.retrato.vacio::before {
+  content: ""; display: block; width: 62px; height: 82px; border: 1px dashed var(--linea); border-radius: 3px;
+  background: radial-gradient(circle at 50% 40%, var(--linea) 0 9px, transparent 10px), var(--papel);
+}
+.retrato.vacio figcaption { max-width: 62px; margin-inline: auto; }
+@media (max-height: 740px) { .retrato.vacio::before { width: 50px; height: 66px; } }
+
+/* === Estetica empujada (2026-10-05): el instrumento parece un instrumento y la
+   ficha, una ficha de archivo. Sin colores nuevos: placa oscura, laton y papel. === */
+:root { --placa: #1E1C19; --placa-escano: #4A463E; --placa-rotulo: #B9B09E; --laton-vivo: #D9A93F; }
+@media (prefers-color-scheme: dark) { :root { --placa: #0F0E0C; --placa-escano: #3B372F; } }
+.esfera {
+  position: relative; max-width: 380px; margin: 8px auto 14px; padding: 12px 14px 8px;
+  background: var(--placa);
+  border: 2px solid var(--laton); border-radius: 190px 190px 12px 12px / 170px 170px 12px 12px;
+  box-shadow: inset 0 3px 10px rgba(0, 0, 0, 0.55), 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+.esfera .medidor { margin: 0 auto; }
+.esfera .escano { fill: var(--placa-escano); }
+.esfera .escano.encendido { fill: var(--laton-vivo); }
+.esfera .rotulo { fill: var(--placa-rotulo); }
+.esfera .marca { stroke: #5C574D; stroke-width: 1; }
+.esfera .marca.umbral { stroke: var(--laton-vivo); stroke-width: 1.6; }
+.esfera .aguja line { stroke: var(--laton-vivo); stroke-width: 2.8; }
+.esfera .aguja circle { fill: #EDE7DA; stroke: var(--laton); stroke-width: 2; }
+.placa {
+  margin: 0; text-align: center; color: var(--placa-rotulo);
+  font: 600 0.72rem/1 var(--ins); text-transform: uppercase; letter-spacing: 0.22em;
+}
+/* Barrido: al acertar, los escanos del lado se encienden de dentro afuera. */
+.esfera .escano.barrido { fill: var(--laton-vivo); transition: fill 120ms ease-out; }
+
+/* Pestana de archivador con el tema, por encima de la ficha. */
+#tarjeta { padding-top: 22px; }
+.pestana {
+  position: absolute; top: 0; left: 18px; z-index: 2;
+  height: 23px; padding: 5px 12px 0;
+  background: var(--ficha); border: 1px solid var(--linea); border-bottom: 0; border-radius: 7px 7px 0 0;
+  font: 600 0.72rem/1 var(--ins); text-transform: uppercase; letter-spacing: 0.12em; color: var(--laton);
+}
+@media (max-height: 740px) {
+  .esfera { padding: 8px 10px 5px; margin: 4px auto 8px; max-width: 250px; }
+  .placa { font-size: 0.7rem; letter-spacing: 0.16em; margin-top: 3px; }
+  #tarjeta { padding-top: 20px; }
+}
+
+/* Esfera sin bisel de linea (Alejandro, 2026-10-05): la placa se define por su fondo. */
+.esfera { border: 0; box-shadow: inset 0 3px 12px rgba(0, 0, 0, 0.6); }
+
+/* === Reto diario === */
+.reto-boton { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 12px 10px; }
+.reto-boton small { color: var(--laton-vivo, var(--laton)); font-size: 0.74rem; margin: 0; letter-spacing: 0.08em; }
+/* En oscuro la tecla principal es clara: el laton vivo da 1,76:1. Laton tostado, 5,33:1. */
+@media (prefers-color-scheme: dark) { .reto-boton small { color: #7A570D; } }
+.reto-explica { text-align: center; font-size: 0.92rem; color: var(--tinta-suave); margin: 8px 0 12px; }
+.libre-boton { width: 100%; background: transparent; }
+.manana { text-align: center; font: 600 0.78rem var(--ins); letter-spacing: 0.04em; color: var(--laton); }
+
+/* === Marcador en directo: la variacion asoma y se desvanece === */
+.marcador-vivo { position: relative; color: var(--tinta); }
+.marcador-vivo::after {
+  content: attr(data-cambio); position: absolute; left: 100%; top: 0; margin-left: 6px;
+  opacity: 0; pointer-events: none; font-weight: 600;
+}
+.marcador-vivo.sube::after { color: var(--acierto); animation: cambio 900ms cubic-bezier(0.16, 1, 0.3, 1); }
+.marcador-vivo.baja::after { color: var(--fallo); animation: cambio 900ms cubic-bezier(0.16, 1, 0.3, 1); }
+@keyframes cambio { 0% { opacity: 0; transform: translateY(4px); } 25% { opacity: 1; transform: none; } 100% { opacity: 0; transform: translateY(-6px); } }
+@media (prefers-reduced-motion: reduce) { .marcador-vivo::after { animation: none !important; } }
+
+.guardar-imagen { display: block; margin: 8px auto 0; }
+
+/* === Tu sorpresa: una frase, elegida por el fallo del jugador === */
+.sorpresa { margin: 22px 0 6px; padding: 16px 18px; background: var(--ficha); border: 1px solid var(--linea); border-radius: 6px; }
+.sorpresa-rotulo { margin: 0 0 6px; font: 600 0.74rem var(--ins); text-transform: uppercase; letter-spacing: 0.1em; color: var(--laton); }
+.sorpresa-texto { margin: 0 0 12px; font: italic 1.02rem/1.45 var(--doc); }
+.sorpresa .tecla { width: 100%; }
+.sorpresa .tecla:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* === Lectura por tema y bloque (2.5) === */
+.por-tema { margin: 18px 0 8px; padding: 14px 18px; background: var(--ficha); border: 1px solid var(--linea); border-radius: 6px; }
+.por-tema-rotulo { margin: 0 0 8px; font: 600 0.74rem var(--ins); text-transform: uppercase; letter-spacing: 0.1em; color: var(--laton); }
+.por-tema-filas { list-style: none; margin: 0; padding: 0; }
+.por-tema-fila { display: grid; grid-template-columns: 1fr auto auto; gap: 12px; align-items: baseline; padding: 4px 0; border-bottom: 1px dotted var(--linea); font: 0.95rem var(--doc); }
+.por-tema-fila:last-child { border-bottom: 0; }
+.por-tema-marcas { font: 0.8rem var(--ins); letter-spacing: 0.15em; color: var(--tinta-suave); }
+.por-tema-cifra { font: 600 0.85rem var(--ins); }
+.por-tema-frase { margin: 10px 0 0; font: italic 1rem/1.4 var(--doc); }

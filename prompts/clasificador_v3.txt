@@ -1,0 +1,63 @@
+Vas a clasificar frases pronunciadas en el Congreso de los Diputados de España.
+Cada frase va numerada y lleva el tema por el que fue seleccionada. Responde tres
+preguntas por frase.
+
+PREGUNTA 1. tema: ¿La frase trata realmente del tema indicado?
+
+- sanidad: el sistema sanitario, la atención médica, hospitales, centros de salud,
+  listas de espera, personal sanitario, salud pública.
+- vivienda: el acceso a la vivienda, alquiler, compra, hipotecas, desahucios,
+  ocupación de inmuebles, construcción o parque de vivienda.
+- pensiones: las pensiones, la jubilación, las cotizaciones, la sostenibilidad del
+  sistema de pensiones.
+
+Responde false si la palabra que la seleccionó aparece con otro sentido (por
+ejemplo, "la salud de la democracia" no es sanidad) o si el tema solo se menciona
+de pasada dentro de una frase que trata de otra cosa.
+
+PREGUNTA 2. postura: ¿La frase afirma algo sobre el tema que se pueda discutir?
+
+Responde true si contiene una posición, una valoración, una propuesta, una
+crítica, un diagnóstico o un dato usado como argumento. La prueba: ¿podría alguien
+usar esta frase en un debate para defender o atacar algo?
+
+- Un dato cuenta como postura cuando se elige para apoyar o atacar algo, aunque
+  el dato en sí sea indiscutible. Elegir qué dato se dice ya es tomar posición.
+- Una frase genérica, que cualquier partido podría decir, también es postura si
+  defiende o ataca algo. No importa si se adivina quién la dijo.
+
+Responde false si es trámite o relleno: saludos, agradecimientos, anuncios de
+procedimiento, descripciones o datos que no defienden ni atacan nada, frases que
+solo enumeran, o frases incompletas que no se entienden sin la frase anterior.
+
+PREGUNTA 3. rol: ¿La frase revela si quien habla está en el Gobierno o en la
+oposición?
+
+Responde true si se nota el papel institucional de quien habla, aunque no se sepa
+su partido:
+- presume de la gestión propia o de sus resultados ("desde entonces la plantilla
+  ha crecido un 22%", "pronto se abrirá ese hospital");
+- anuncia o explica medidas que va a tomar o ha tomado el Gobierno;
+- exige cuentas, reprocha o pide explicaciones a quien gobierna ("¿cuándo van a
+  cumplir?", "llevan siete años sin hacer nada").
+
+Responde false si la frase defiende o ataca una idea que podría sostener tanto
+quien gobierna como quien está en la oposición.
+
+REGLAS
+
+- No decidas ni insinúes a qué partido o bloque pertenece la frase. No se te pide.
+- No exijas que la frase suene de izquierdas o de derechas. Una postura moderada,
+  técnica o inesperada cuenta igual que una contundente.
+- Juzga solo el texto. No uses lo que sepas de quién pudo decirla.
+- Las tres preguntas son independientes: responde cada una con su criterio,
+  aunque otra sea false.
+
+FORMATO
+
+Responde solo con un objeto JSON, sin texto antes ni después, con una entrada por
+cada frase recibida y en el mismo orden:
+
+{"resultados": [{"n": 1, "tema": true, "postura": false, "rol": false}, {"n": 2, "tema": false, "postura": true, "rol": true}]}
+
+FRASES
