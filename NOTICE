@@ -1,0 +1,14 @@
+Escañómetro
+Copyright (c) 2026 Alejandro Campos Lamas
+
+El código de este repositorio se distribuye con licencia MIT (ver LICENSE).
+
+No están cubiertos por esa licencia:
+
+- Las frases del catálogo (web/catalogo.json): Diario de Sesiones del Congreso de los
+  Diputados. Reproducción al amparo del art. 33 del TRLPI; reutilización de datos del
+  Congreso al amparo de la Ley 37/2007.
+- Los retratos de web/fotos/: fotografías oficiales del Congreso de los Diputados
+  (congreso.es), reproducidas sin modificar según sus condiciones de reutilización.
+- La tipografía IBM Plex (web/fonts/, branding/og/): SIL Open Font License 1.1
+  (web/fonts/OFL-ibm-plex.txt).

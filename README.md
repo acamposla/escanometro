@@ -73,7 +73,7 @@ propias.
 
 ## Licencias
 
-- **Código:** MIT (`LICENSE`).
+- **Código:** MIT (`LICENSE`). El resto, en `NOTICE`.
 - **Frases:** Diario de Sesiones del Congreso de los Diputados. Su reproducción se ampara
   en el art. 33 del TRLPI; los datos del Congreso se reutilizan al amparo de la Ley
   37/2007.
